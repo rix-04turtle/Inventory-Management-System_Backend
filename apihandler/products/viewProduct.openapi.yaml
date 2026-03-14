@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: View Products API
+  version: 1.0.0
+  description: API endpoint for fetching all products in the Inventory Management System.
+paths:
+  /view:
+    get:
+      summary: Fetch all products
+      description: Retrieves a list of all products from the MasterProduct collection.
+      responses:
+        '200':
+          description: A successful response containing the list of products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      description: Product document object containing product details
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Inernal Server Error

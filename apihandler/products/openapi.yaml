@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: Products API
+  version: 1.0.0
+  description: API for managing products in the Inventory Management System
+servers:
+  - url: /products
+    description: Base URL for products routes
+paths:
+  /view:
+    get:
+      summary: Fetch all products
+      description: Retrieves a list of all products from the MasterProduct collection.
+      responses:
+        '200':
+          description: A successful response containing the list of products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      description: Product document object
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Inernal Server Error
+  /add:
+    post:
+      summary: Add a new product
+      description: Creates a new product entry in the MasterProduct collection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - productCatagory
+              properties:
+                productCatagory:
+                  type: string
+                  description: The category of the product
+                productName:
+                  type: string
+                productImage:
+                  type: string
+                productDescription:
+                  type: string
+                productBasePrice:
+                  type: number
+                productStockQnt:
+                  type: number
+                productminStockLevel:
+                  type: number
+      responses:
+        '200':
+          description: A successful response indicating successful creation or error in parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  error:
+                    type: string
+                    description: Defined if there was a validation error (e.g. Type of Catagory must be String)
+                  message:
+                    type: string
+                    description: Detailed error message on failure
