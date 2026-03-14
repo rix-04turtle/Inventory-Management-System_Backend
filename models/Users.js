@@ -1,8 +1,7 @@
-import mongoose from 'mongoose'
+import mongoose,{ObjectId} from 'mongoose'
 
 // Define the Schema
 const userSchema = new mongoose.Schema({
-  _id: ObjectId,
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
@@ -11,7 +10,7 @@ const userSchema = new mongoose.Schema({
   
   // Specific to Retailers
   storeName: { type: String },
-  storeLocation: {
+  storeLocation: { 
     // GeoJSON format for location-based searching/comparisons
     type: { type: String, enum: ['Point'] },
     coordinates: { type: [Number] }, // [longitude, latitude]

@@ -5,6 +5,7 @@ async function addProduct(req, res) {
   try {
     let body = req.body;
     console.log(body)
+    
     let productCatagory = body.productCatagory;
     if (typeof productCatagory !== "string") {
       return res.json({ error: "Type of Catagory must be String" });
