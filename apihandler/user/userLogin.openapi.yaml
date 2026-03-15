@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  title: User Login API
+  version: 1.0.0
+  description: API endpoint for user authentication and login.
+paths:
+  /login:
+    post:
+      summary: User Login
+      description: Authenticates a user using email and password, and returns a JWT token.
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: The user's email address.
+                password:
+                  type: string
+                  description: The user's password.
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  token:
+                    type: string
+                    description: JWT token for authentication.
+        '400':
+          description: Bad Request - Incorrect credentials or invalid input format.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Incorrect email or password.
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Type of password must be String
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Internal Server Error
+                  err:
+                    type: object
+                    description: Error details object.
