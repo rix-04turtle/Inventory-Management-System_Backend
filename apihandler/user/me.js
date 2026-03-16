@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 async function myAuth(req, res) {
   try {
     let loggedInUser = req.authMiddleware;
-    console.log(loggedInUser);
+    // console.log(loggedInUser);
 
     return res.json({ status: "success", user: loggedInUser });
   } catch (err) {

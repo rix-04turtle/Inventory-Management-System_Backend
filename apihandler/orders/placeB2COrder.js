@@ -4,7 +4,7 @@ import Cart from '../../models/Carts.js';
 
 const placeB2COrder = async (req, res) => {
     try {
-        const customerId = req.user.id;
+        const customerId = req.authMiddleware._id;
         let { items, paymentDetails } = req.body; // Expect items array: [{ retailerId, retailerInventoryId, quantity, priceAtPurchase }]
 
         // If items not provided, try to create from cart
