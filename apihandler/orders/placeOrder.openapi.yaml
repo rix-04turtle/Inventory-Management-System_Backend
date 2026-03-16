@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Place B2B Order
+  version: 1.0.0
+  description: API endpoint to place a B2B order for products.
+paths:
+  /orders/place:
+    post:
+      summary: Place a B2B order
+      description: Places a new B2B order for the authenticated retailer.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  description: List of items to order
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Product ID
+                      quantity:
+                        type: integer
+                        description: Quantity to order
+                    required:
+                      - id
+                      - quantity
+              required:
+                - items
+      responses:
+        '200':
+          description: Order placed successfully or failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Status of the request (success or failed)
+                  items:
+                    type: array
+                    description: List of ordered items (on success)
+                    items:
+                      type: object
+                      properties:
+                        masterProductId:
+                          type: string
+                        quantity:
+                          type: integer
+                        priceAtPurchase:
+                          type: number
+                  totalAmount:
+                    type: number
+                    description: Total order amount (on success)
+                  orderId:
+                    type: string
+                    description: Order ID (on success)
+                  message:
+                    type: string
+                    description: Error message (on failure)
+                  error:
+                    type: string
+                    description: Error details (on failure)
+      security:
+        - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

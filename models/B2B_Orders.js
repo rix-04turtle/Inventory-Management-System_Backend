@@ -1,8 +1,9 @@
-import mongoose from 'mongoose'
+import mongoose,{ObjectId} from 'mongoose'
+
 
 // Define the Schema
 const B2BOrderSchema = new mongoose.Schema({
-  _id: ObjectId,
+  
   retailerId: { type: ObjectId, ref: 'User' },
   adminId: { type: ObjectId, ref: 'User' },
   items:[

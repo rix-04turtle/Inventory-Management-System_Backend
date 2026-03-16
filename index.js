@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import productRoutes from './apihandler/products/products.route.js';
 import cors from 'cors';
 import userRoutes from './apihandler/user/user.routes.js';
+import orderRoutes from './apihandler/orders/orders.route.js';
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -29,6 +30,8 @@ app.get('/home', (req, res) => {
 app.use('/products', productRoutes);
 
 app.use('/user', userRoutes);
+
+app.use('/orders',orderRoutes)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

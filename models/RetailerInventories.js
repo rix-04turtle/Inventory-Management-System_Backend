@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 // Define the Schema
 const retailerInventorySchema = new mongoose.Schema({
-  _id: ObjectId,
+  
   retailerId: { type: ObjectId, ref: 'User' },
   masterProductId: { type: ObjectId, ref: 'MasterProduct' },
   
