@@ -16,33 +16,31 @@ async function placeOrder(req, res) {
       _id: { $in: uniqueProductIds },
     });
 
-
     if (productDetails.length < 1) {
       return res.json({ status: "failed", message: "product not found" });
     }
 
+    const loggedinUser = req.authMiddleware;
+    const retailerId = loggedinUser._id;
+    const ADMIN_ID = "69b5e6ef56c76b6c043cdbdc"; // Reverted to hardcoded ADMIN_ID
+
     let base = 0;
     let dbEntryItems = [];
+    
     for (let i = 0; i < orderedItems.length; i++) {
       let orderedItem = orderedItems[i]; // The one user passed through API
-      // The one got from Database
-      let product = productDetails.filter(
-        (item) => orderedItem.id == item._id,
-      )[0];
+      let product = productDetails.find((item) => orderedItem.id == item._id);
+
+      if (!product) continue;
 
       base += product.basePrice * orderedItem.quantity;
 
-      // Prepare individual items with predefined sturcture, to insert in db later step
       dbEntryItems.push({
         masterProductId: product._id,
         quantity: orderedItem.quantity,
         priceAtPurchase: product.basePrice,
       });
     }
-
-    const loggedinUser = req.authMiddleware;
-    const retailerId = loggedinUser._id;
-    const ADMIN_ID = "69b5e6ef56c76b6c043cdbdc";
 
     // Insert the order in database
     const newOrder = await B2BOrder.create({
@@ -51,14 +49,15 @@ async function placeOrder(req, res) {
       items: dbEntryItems,
       totalAmount: base,
       orderStatus: "PROCESSING",
+      createdAt: new Date()
     });
 
-    // Respond with success and order details
+    // Respond with success
     return res.json({
       status: "success",
-      items: dbEntryItems,
-      totalAmount: base,
+      message: "Order placed successfully",
       orderId: newOrder._id,
+      totalAmount: base
     });
   } catch (error) {
     console.log(error);

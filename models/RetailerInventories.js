@@ -1,21 +1,23 @@
-import mongoose from 'mongoose'
+import mongoose, { ObjectId } from "mongoose";
 
 // Define the Schema
 const retailerInventorySchema = new mongoose.Schema({
-  
-  retailerId: { type: ObjectId, ref: 'User' },
-  masterProductId: { type: ObjectId, ref: 'MasterProduct' },
-  
+  retailerId: { type: ObjectId, ref: "User" },
+  masterProductId: { type: ObjectId, ref: "MasterProduct" },
+
   // Retailer customizable fields
   retailerPrice: { type: Number, required: true }, // Selling price to end users
-  retailerDescription: { type: String }, 
+  retailerDescription: { type: String },
   stockQuantity: { type: Number, required: true }, // Current stock in the retailer's physical store
-  
-  status: { type: String, enum:['ACTIVE', 'INACTIVE', 'OUT_OF_STOCK'] },
+
+  status: { type: String, enum: ["ACTIVE", "INACTIVE", "OUT_OF_STOCK"] },
   createdAt: Date,
-  updatedAt: Date
-})
+  updatedAt: Date,
+});
 // Create and export the Model
-const RetailerInventory = mongoose.model('RetailerInventory', retailerInventorySchema);
+const RetailerInventory = mongoose.model(
+  "RetailerInventory",
+  retailerInventorySchema,
+);
 
 export default RetailerInventory;

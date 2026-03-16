@@ -1,6 +1,6 @@
 import Users from "../../models/Users.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
 async function userLogin(req, res) {
   try {
@@ -22,25 +22,31 @@ async function userLogin(req, res) {
     console.log(existingUser);
 
     if (!existingUser) {
-      return res.status(400).send("Incorrect email or password.");
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Incorrect email or password." });
     }
 
     console.log(typeof password);
     const isMatch = await bcrypt.compare(password, existingUser.passwordHash);
 
     if (!isMatch) {
-      return res.status(400).send("Incorrect email or password.");
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Incorrect email or password." });
     }
 
-    const payload = { id: existingUser._id, role: existingUser.role, email: existingUser.email}
+    const payload = {
+      id: existingUser._id,
+      role: existingUser.role,
+      email: existingUser.email,
+    };
 
-    const token = jwt.sign(
-        payload,
-        process.env.JWT_SECRET_KEY,
-        {expiresIn: "30d"}
-    );
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      expiresIn: "30d",
+    });
 
-    return res.json({ status: "success", token});
+    return res.json({ status: "success", token });
   } catch (err) {
     console.log(err);
     return res.json({

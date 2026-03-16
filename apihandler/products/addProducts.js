@@ -26,8 +26,10 @@ async function addProduct(req, res) {
       productStockQnt,
     );
 
+    const loggedinUser = req.authMiddleware;
+
     const newProduct = new MasterProduct({
-      // _id: new ObjectId,
+      adminId: loggedinUser._id, // Set the Admin ID from the token
       catagory: productCatagory,
       name: productName,
       images: productImage,
