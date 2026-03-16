@@ -1,17 +1,15 @@
-import express from 'express'
-import placeOrders from './placeOrder.js'
-import viewOrders from './viewOrders.js'
-import authMiddleware from '../../middleware/authMiddleware.js'
+import express from "express";
+import placeOrders from "./placeOrder.js";
+import viewOrders from "./viewOrders.js";
+import authMiddleware from "../../middleware/authMiddleware.js";
 
-const orderRoutes = express()
+const orderRoutes = express();
 
-orderRoutes.post('/place',authMiddleware, placeOrders )
+orderRoutes.post("/place", authMiddleware, placeOrders);
 
-orderRoutes.get('/view', viewOrders)
-
-
+orderRoutes.get("/", authMiddleware, viewOrders);
 
 // productRoutes.get('/view')
 // BASE URL : /orders
 
-export default orderRoutes
+export default orderRoutes;
