@@ -1,5 +1,6 @@
 import Users from "../../models/Users.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 async function userSignUp(req, res) {
   try {
@@ -34,7 +35,14 @@ async function userSignUp(req, res) {
     });
     await newUser.save();
 
-    return res.json({ status: "success" });
+    const payload = { id: newUser._id, role: newUser.role, email: newUser.email };
+    const token = jwt.sign(
+        payload,
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "30d" }
+    );
+
+    return res.json({ status: "success", token });
   } catch (err) {
     console.log(err);
     return res.json({
