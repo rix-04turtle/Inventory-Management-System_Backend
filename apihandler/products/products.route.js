@@ -3,6 +3,7 @@ import addProduct from './addProducts.js'
 import fetchProduct from './fetchProducts.js'
 import fetchRetailerInventory from './fetchRetailerInventory.js'
 import fetchAdminInventory from './fetchAdminInventory.js'
+import fetchAllRetailerInventories from './fetchAllRetailerInventories.js'
 import authMiddleware from '../../middleware/authMiddleware.js'
 
 const productRoutes = express()
@@ -14,6 +15,8 @@ productRoutes.get('/view', authMiddleware, fetchProduct)
 productRoutes.get('/inventory', authMiddleware, fetchRetailerInventory)
 
 productRoutes.get('/admin-inventory', authMiddleware, fetchAdminInventory)
+
+productRoutes.get('/all-retailer-inventory', authMiddleware, fetchAllRetailerInventories)
 
 // BASE URL : /products
 
